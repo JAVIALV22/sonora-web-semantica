@@ -1,0 +1,12 @@
+<!ELEMENT cancionero (cancion+)>
+<!ELEMENT cancion (titulo, artista, album, duracion, anio, audio)>
+<!ATTLIST cancion
+  id ID #REQUIRED
+  genero (pop|rock|latino|balada|reggaeton|salsa|regional) #REQUIRED
+>
+<!ELEMENT titulo (#PCDATA)>
+<!ELEMENT artista (#PCDATA)>
+<!ELEMENT album (#PCDATA)>
+<!ELEMENT duracion (#PCDATA)>
+<!ELEMENT anio (#PCDATA)>
+<!ELEMENT audio (#PCDATA)>

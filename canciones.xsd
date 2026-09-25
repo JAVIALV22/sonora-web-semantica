@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="cancionero">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="cancion" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="titulo" type="xs:string"/>
+              <xs:element name="artista" type="xs:string"/>
+              <xs:element name="album" type="xs:string"/>
+              <xs:element name="duracion" type="xs:string"/>
+              <xs:element name="anio" type="xs:gYear"/>
+              <xs:element name="audio" type="xs:anyURI"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:ID" use="required"/>
+            <xs:attribute name="genero" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="pop"/><xs:enumeration value="rock"/>
+                  <xs:enumeration value="latino"/><xs:enumeration value="balada"/>
+                  <xs:enumeration value="reggaeton"/><xs:enumeration value="salsa"/>
+                  <xs:enumeration value="regional"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

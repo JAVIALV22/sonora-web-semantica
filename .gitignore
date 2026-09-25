@@ -1,0 +1,25 @@
+# Base de datos local y archivos generados
+sonora.db
+*.db
+__pycache__/
+*.py[cod]
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Configuracion local y secretos
+.env
+.env.*
+!.env.example
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs y archivos temporales
+*.log
+*.tmp
