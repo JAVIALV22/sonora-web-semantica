@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sonora | Mi Perfil</title>
+  <link rel="stylesheet" href="canciones.css?v=4"/>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="canciones.xml">
+      <span class="brand-mark">S</span>
+      <span>SONORA</span>
+    </a>
+    <div class="session">
+      <a href="canciones.xml" class="button button-outline">← Volver al catálogo</a>
+      <button id="profile-logout-btn" class="button button-dark" type="button">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="profile-page">
+    <section class="profile-hero">
+      <p class="eyebrow">PERFIL DE USUARIO · BASE DE DATOS XML</p>
+      <h1>Mi espacio <em>musical.</em></h1>
+    </section>
+
+    <div class="profile-grid">
+      <!-- SECCIÓN 1: INFORMACIÓN DEL USUARIO -->
+      <section class="profile-card" aria-labelledby="heading-user-info">
+        <div class="section-badge">SECCIÓN 1</div>
+        <h2 id="heading-user-info">Información del usuario</h2>
+
+        <div class="user-summary">
+          <div class="profile-avatar-xl" id="profile-page-avatar">
+            <svg viewBox="0 0 24 24" width="54" height="54" fill="currentColor" aria-hidden="true">
+              <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/>
+            </svg>
+          </div>
+          <div class="user-summary-text">
+            <h3 id="info-username">Cargando...</h3>
+            <p id="info-created">Miembro desde: --</p>
+            <span class="status-pill">Almacenado en datos.xml</span>
+          </div>
+        </div>
+
+        <div class="user-stats">
+          <div class="stat-item">
+            <strong id="stat-favorites">0</strong>
+            <span>Favoritas ★</span>
+          </div>
+          <div class="stat-item">
+            <strong id="stat-likes">0</strong>
+            <span>Likes dados ♥</span>
+          </div>
+          <div class="stat-item">
+            <strong id="stat-added">0</strong>
+            <span>Aportadas +</span>
+          </div>
+        </div>
+
+        <form id="profile-info-form" class="profile-form">
+          <label class="field-label">Biografía / Sobre mí
+            <textarea id="input-bio" rows="3" placeholder="Escribe algo sobre ti y tu pasión por la música..."></textarea>
+          </label>
+          <label class="field-label">Color de insignia de perfil
+            <select id="input-avatar-color">
+              <option value="#2b7a78">Verde Azulado (Teal)</option>
+              <option value="#3a6b88">Azul Pizarra</option>
+              <option value="#52796f">Verde Salvia</option>
+              <option value="#b56576">Coral Suave</option>
+              <option value="#6d597a">Lavanda Oscuro</option>
+            </select>
+          </label>
+          <p id="profile-save-msg" class="auth-message"></p>
+          <button type="submit" class="button button-accent">Guardar información</button>
+        </form>
+      </section>
+
+      <!-- SECCIÓN 2: GUSTOS MUSICALES -->
+      <section class="profile-card" aria-labelledby="heading-musical-tastes">
+        <div class="section-badge">SECCIÓN 2</div>
+        <h2 id="heading-musical-tastes">Gustos musicales</h2>
+        <p class="dialog-copy">Selecciona tus géneros predilectos y tus artistas favoritos para personalizar tu perfil semántico.</p>
+
+        <form id="profile-tastes-form" class="profile-form">
+          <fieldset class="genre-chips-fieldset">
+            <legend class="field-label">Géneros preferidos</legend>
+            <div class="genre-chips" id="genre-chips-container">
+              <label class="chip-option"><input type="checkbox" name="genre" value="pop"/><span>Pop</span></label>
+              <label class="chip-option"><input type="checkbox" name="genre" value="rock"/><span>Rock</span></label>
+              <label class="chip-option"><input type="checkbox" name="genre" value="latino"/><span>Latino</span></label>
+              <label class="chip-option"><input type="checkbox" name="genre" value="balada"/><span>Balada</span></label>
+              <label class="chip-option"><input type="checkbox" name="genre" value="reggaeton"/><span>Reggaetón</span></label>
+              <label class="chip-option"><input type="checkbox" name="genre" value="salsa"/><span>Salsa</span></label>
+              <label class="chip-option"><input type="checkbox" name="genre" value="regional"/><span>Regional</span></label>
+            </div>
+          </fieldset>
+
+          <label class="field-label">Artistas o bandas favoritas
+            <input type="text" id="input-artists" placeholder="Ej. Queen, Adele, The Weeknd, Soda Stereo..."/>
+          </label>
+
+          <p id="tastes-save-msg" class="auth-message"></p>
+          <button type="submit" class="button button-accent">Guardar gustos musicales</button>
+        </form>
+
+        <hr class="section-divider"/>
+
+        <div class="favorites-preview">
+          <h3>Mis canciones favoritas guardadas</h3>
+          <ul id="profile-favorites-list" class="profile-song-list">
+            <li>Cargando tus canciones favoritas...</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span>SONORA / Proyecto de Web Semántica</span>
+    <span>XML · DTD · XSD · XSL</span>
+  </footer>
+
+  <!-- Ventana Emergente de Confirmación -->
+  <dialog id="confirm-dialog">
+    <div class="confirm-box">
+      <p class="eyebrow" id="confirm-eyebrow">CONFIRMACIÓN</p>
+      <h2 id="confirm-title">¿Estás seguro?</h2>
+      <p id="confirm-message" class="dialog-copy">Confirma si deseas realizar esta acción.</p>
+      <div class="confirm-actions">
+        <button type="button" id="confirm-cancel" class="button button-outline">Cancelar</button>
+        <button type="button" id="confirm-accept" class="button button-accent">Confirmar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="canciones.js?v=4"></script>
+</body>
+</html>

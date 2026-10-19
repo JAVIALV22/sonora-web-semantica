@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="canciones.xsl"?>
+<?xml-stylesheet type="text/xsl" href="canciones.xsl?v=4"?>
 <!DOCTYPE cancionero SYSTEM "canciones.dtd">
 <cancionero>
   <cancion id="c1" genero="pop">

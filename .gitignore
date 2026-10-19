@@ -23,3 +23,18 @@ Thumbs.db
 # Logs y archivos temporales
 *.log
 *.tmp
+
+# Base de datos XML local y archivos temporales
+datos.xml
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+*.tmp

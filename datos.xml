@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sonora_db>
+  <usuarios>
+    <usuario id="1" username="DIOS" password_hash="907c2c01b4ee9c7c092a4b974e5e62f232d7e77e07d30f4d3547864c99dddc56" password_salt="326269ae3e5ffaf4913d63728e03bef7" created_at="2026-10-19">
+      <perfil bio="Amante de la música en Sonora." generos="pop,rock,latino" artistas="" avatar_color="#2b7a78" />
+    </usuario>
+    <usuario id="2" username="CUENTA NUEVA" password_hash="d48d39b09801d1e9c76694d9eae1d41f62a061cc74ef4d7d8e0f482bec9b0d5e" password_salt="956b4b6ce16b1b0032ef79571295676f" created_at="2026-10-19">
+      <perfil bio="Amante de la música en Sonora." generos="pop,rock,latino" artistas="The Weeknd" avatar_color="#6d597a" />
+    </usuario>
+  </usuarios>
+  <canciones_agregadas>
+    <cancion user_id="1" added_by="DIOS" track_id="475774918" title="Perdido en la Obscuridad" artist="José José" album="Amor Amor" genre="Pop en español" year="1980" artwork_url="https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/51/3a/8e513a27-1376-7529-4ab3-05524b22f94a/743215756828.jpg/100x100bb.jpg" preview_url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c1/69/54/c16954aa-b348-8e23-03f6-6f39df4233db/mzaf_1415413067096505816.plus.aac.p.m4a" track_url="https://music.apple.com/es/album/perdido-en-la-obscuridad/475774599?i=475774918&amp;uo=4" duration_ms="231600" />
+    <cancion user_id="2" added_by="CUENTA NUEVA" track_id="1249009018" title="Si Me Dejas Ahora" artist="José José" album="El Príncipe de la Canción" genre="Baladas y Boleros" year="1979" artwork_url="https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/54/cb/1d/54cb1def-8644-be5b-6edc-e5359fcfc0cb/886446573373.jpg/100x100bb.jpg" preview_url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2a/ab/88/2aab8814-9d58-fabf-40ed-5b72b67bbc3a/mzaf_6197749830440162246.plus.aac.p.m4a" track_url="https://music.apple.com/es/album/si-me-dejas-ahora/1249008742?i=1249009018&amp;uo=4" duration_ms="275560" />
+  </canciones_agregadas>
+  <canciones_eliminadas />
+  <favoritos>
+    <favorito user_id="1" track_id="475774918" created_at="2026-10-19T04:23:37.983994" />
+    <favorito user_id="2" track_id="c9" created_at="2026-10-19T04:24:29.364783" />
+    <favorito user_id="2" track_id="1249009018" created_at="2026-10-19T04:25:55.887984" />
+    <favorito user_id="2" track_id="c7" created_at="2026-10-19T04:26:45.208424" />
+    <favorito user_id="2" track_id="475774918" created_at="2026-10-19T04:27:00.027978" />
+  </favoritos>
+  <likes>
+    <like user_id="1" track_id="475774918" created_at="2026-10-19T04:23:39.564116" />
+    <like user_id="2" track_id="475774918" created_at="2026-10-19T04:24:26.316987" />
+    <like user_id="2" track_id="c9" created_at="2026-10-19T04:24:29.096101" />
+    <like user_id="2" track_id="1249009018" created_at="2026-10-19T04:25:55.692686" />
+    <like user_id="2" track_id="c7" created_at="2026-10-19T04:26:11.636744" />
+  </likes>
+</sonora_db>
