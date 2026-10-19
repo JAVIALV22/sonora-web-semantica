@@ -47,58 +47,6 @@ SONORA es una aplicación web de catálogo musical que utiliza tecnologías XML 
 6. Haz clic en tu nombre de usuario, en la esquina superior derecha, para abrir el menú y acceder a **Perfil**, **Mis canciones favoritas** o **Cerrar sesión**.
 7. Pulsa **+ Agregar canción**, escribe el título de una pista y agrégala a la biblioteca compartida en XML.
 
-## Subir los cambios a una nueva rama de GitHub
-
-Antes de comenzar, abre PowerShell en la carpeta del proyecto y detén el servidor con `Ctrl + C`.
-
-### Opción A: el proyecto se clonó con `git clone`
-
-Ejecuta los siguientes comandos uno por uno. El primero elimina la antigua base de datos SQLite `sonora.db`, si todavía existe.
-
-```powershell
-# 1. Eliminar la antigua base de datos SQLite si existe
-if (Test-Path sonora.db) { Remove-Item sonora.db }
-
-# 2. Crear y cambiar a la nueva rama
-git checkout -b version-xml
-
-# 3. Agregar los archivos nuevos y modificados
-git add .
-
-# 4. Crear un commit con los cambios
-git commit -m "Migrar base de datos a XML, agregar perfil, likes, modales y nuevo diseno"
-
-# 5. Subir la rama a GitHub
-git push -u origin version-xml
-```
-
-> **Importante:** eliminar `sonora.db` es una operación irreversible si no tienes una copia de seguridad. Asegúrate de que ya no necesitas su contenido antes de borrarlo.
-
-### Opción B: el proyecto se descargó como archivo ZIP
-
-Si descargaste el proyecto como ZIP, es posible que la carpeta no contenga la información de Git. Si al ejecutar `git status` aparece `fatal: not a git repository`, puedes inicializar el repositorio y vincularlo con GitHub usando estos comandos:
-
-```powershell
-# 1. Eliminar la antigua base de datos SQLite si existe
-if (Test-Path sonora.db) { Remove-Item sonora.db }
-
-# 2. Inicializar Git y crear la nueva rama
-git init
-git checkout -b version-xml
-
-# 3. Vincular el repositorio local con GitHub
-git remote add origin https://github.com/JAVIALV22/sonora-web-semantica.git
-
-# 4. Agregar los archivos y crear el commit
-git add .
-git commit -m "Migrar base de datos a XML, agregar perfil, likes, modales y nuevo diseno"
-
-# 5. Subir la rama
-git push -u origin version-xml
-```
-
-> **Nota:** si el repositorio de GitHub ya contiene commits, el `push` podría rechazarse por diferencias entre el historial remoto y el local. En ese caso, lo más seguro suele ser clonar el repositorio con `git clone` y copiar los archivos modificados a esa copia.
-
 ## Base de datos XML y seguridad
 
 El backend gestiona la persistencia mediante el archivo `datos.xml`, que contiene nodos como `<usuarios>`, `<canciones_agregadas>`, `<canciones_eliminadas>`, `<favoritos>` y `<likes>`.
