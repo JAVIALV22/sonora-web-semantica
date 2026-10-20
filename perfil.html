@@ -20,14 +20,12 @@
 
   <main class="profile-page">
     <section class="profile-hero">
-      <p class="eyebrow">PERFIL DE USUARIO · BASE DE DATOS XML</p>
+      <p class="eyebrow">PERFIL DE USUARIO</p>
       <h1>Mi espacio <em>musical.</em></h1>
     </section>
 
     <div class="profile-grid">
-      <!-- SECCIÓN 1: INFORMACIÓN DEL USUARIO -->
       <section class="profile-card" aria-labelledby="heading-user-info">
-        <div class="section-badge">SECCIÓN 1</div>
         <h2 id="heading-user-info">Información del usuario</h2>
 
         <div class="user-summary">
@@ -39,7 +37,6 @@
           <div class="user-summary-text">
             <h3 id="info-username">Cargando...</h3>
             <p id="info-created">Miembro desde: --</p>
-            <span class="status-pill">Almacenado en datos.xml</span>
           </div>
         </div>
 
@@ -76,9 +73,7 @@
         </form>
       </section>
 
-      <!-- SECCIÓN 2: GUSTOS MUSICALES -->
       <section class="profile-card" aria-labelledby="heading-musical-tastes">
-        <div class="section-badge">SECCIÓN 2</div>
         <h2 id="heading-musical-tastes">Gustos musicales</h2>
         <p class="dialog-copy">Selecciona tus géneros predilectos y tus artistas favoritos para personalizar tu perfil semántico.</p>
 
@@ -114,12 +109,36 @@
         </div>
       </section>
     </div>
-  </main>
 
-  <footer>
-    <span>SONORA / Proyecto de Web Semántica</span>
-    <span>XML · DTD · XSD · XSL</span>
-  </footer>
+    <section class="profile-card profile-wide" aria-labelledby="heading-recommendations">
+      <h2 id="heading-recommendations">Recomendaciones para ti</h2>
+      <p class="dialog-copy">Sugerencias calculadas con tus géneros y artistas favoritos.</p>
+      <div id="recommendations-list" class="recommendation-grid">
+        <p>Cargando recomendaciones...</p>
+      </div>
+    </section>
+
+    <section class="profile-card profile-wide" aria-labelledby="heading-statistics">
+      <h2 id="heading-statistics">Mis estadísticas musicales</h2>
+      <div id="profile-stats" class="recommendation-grid">
+        <p>Cargando estadísticas...</p>
+      </div>
+    </section>
+
+    <section class="profile-card profile-wide" aria-labelledby="heading-playlists">
+      <h2 id="heading-playlists">Mis playlists</h2>
+      <p class="dialog-copy">Crea una playlist aquí y después agrega canciones desde el catálogo usando el selector de cada canción.</p>
+      <form id="playlist-form" class="inline-form">
+        <input id="playlist-name" required maxlength="80" placeholder="Nombre de la playlist"/>
+        <input id="playlist-description" maxlength="300" placeholder="Descripción opcional"/>
+        <button type="submit" class="button button-accent">Crear playlist</button>
+      </form>
+      <p id="playlist-message" class="auth-message" role="status"></p>
+      <div id="playlists-list" class="playlist-grid">
+        <p>Aún no tienes playlists.</p>
+      </div>
+    </section>
+  </main>
 
   <!-- Ventana Emergente de Confirmación -->
   <dialog id="confirm-dialog">
@@ -134,6 +153,6 @@
     </div>
   </dialog>
 
-  <script src="canciones.js?v=4"></script>
+  <script src="canciones.js?v=5"></script>
 </body>
 </html>

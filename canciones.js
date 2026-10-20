@@ -4,6 +4,7 @@ let userLikes = new Set();
 let likeCounts = {};
 let deletedSongIds = new Set();
 let onlyFavoritesMode = false;
+let playlistOptions = [];
 
 const BASE_CATALOG = {
   c1: { title: 'Billie Jean', artist: 'Michael Jackson', genre: 'pop' },
@@ -20,6 +21,51 @@ const BASE_CATALOG = {
 
 function currentUser() {
   return sessionUser;
+}
+
+function applyAvatar(element, user) {
+  if (!element) return;
+  element.style.backgroundColor = user?.avatarColor || '#2b7a78';
+  if (element.id === 'header-avatar') {
+    element.textContent = (user?.username || 'U').charAt(0).toUpperCase();
+  }
+  const icon = element.querySelector('svg');
+  if (icon) icon.hidden = false;
+}
+
+async function loadStats() {
+  const container = document.querySelector('#profile-stats');
+  if (!container) return;
+  try {
+    const stats = await api('/api/stats');
+    container.replaceChildren();
+    const values = [
+      ['Favoritas', stats.favorites],
+      ['Likes dados', stats.likes],
+      ['Reproducciones', stats.history],
+      ['Canciones aportadas', stats.added],
+    ];
+    values.forEach(([label, value]) => {
+      const card = document.createElement('div');
+      card.className = 'recommendation-card';
+      const number = document.createElement('strong');
+      number.textContent = String(value);
+      const text = document.createElement('p');
+      text.textContent = label;
+      card.append(number, text);
+      container.append(card);
+    });
+    Object.entries(stats.genres || {}).forEach(([genre, count]) => {
+      const card = document.createElement('div');
+      card.className = 'recommendation-card';
+      const text = document.createElement('p');
+      text.textContent = `${genre}: ${count} actividad${count === 1 ? '' : 'es'}`;
+      card.append(text);
+      container.append(card);
+    });
+  } catch (error) {
+    container.textContent = error.message;
+  }
 }
 
 async function api(path, options = {}) {
@@ -75,15 +121,13 @@ function updateSessionUI() {
       profileContainer.hidden = false;
       document.querySelector('#user-status').textContent = user.username;
       document.querySelector('#dropdown-username').textContent = user.username;
-      const initial = user.username.charAt(0).toUpperCase();
       const headerAvatar = document.querySelector('#header-avatar');
       const dropdownAvatar = document.querySelector('#dropdown-avatar');
       if (headerAvatar) {
-        headerAvatar.textContent = initial;
-        headerAvatar.style.backgroundColor = user.avatarColor || '#2b7a78';
+        applyAvatar(headerAvatar, user);
       }
       if (dropdownAvatar) {
-        dropdownAvatar.style.backgroundColor = user.avatarColor || '#2b7a78';
+        applyAvatar(dropdownAvatar, user);
       }
     } else {
       guestStatus.hidden = false;
@@ -115,6 +159,78 @@ function updateSessionUI() {
 
   const addSongBtn = document.querySelector('#add-song-button');
   if (addSongBtn) addSongBtn.disabled = !user;
+  if (user && document.querySelector('.song-grid')) refreshPlaylistControls();
+}
+
+function refreshPlaylistControls() {
+  document.querySelectorAll('.song-card').forEach((card) => {
+    const actions = card.querySelector('.card-actions');
+    const trackId = card.dataset.id;
+    const existingPicker = actions?.querySelector('.playlist-picker');
+    if (!actions || !trackId) return;
+    if (existingPicker) existingPicker.remove();
+    const picker = document.createElement('div');
+    picker.className = 'playlist-picker';
+    const select = document.createElement('select');
+    select.className = 'playlist-select';
+    select.setAttribute('aria-label', 'Elegir playlist');
+    const empty = document.createElement('option');
+    empty.value = '';
+    empty.textContent = playlistOptions.length ? 'Agregar a playlist' : 'Crea una playlist en tu perfil';
+    select.append(empty);
+    playlistOptions.forEach((playlist) => {
+      const option = document.createElement('option');
+      option.value = playlist.id;
+      option.textContent = playlist.name;
+      select.append(option);
+    });
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'playlist-add-button';
+    button.textContent = '+';
+    button.title = 'Agregar a playlist';
+    button.disabled = !playlistOptions.length;
+    button.addEventListener('click', async () => {
+      if (!select.value) return;
+      button.disabled = true;
+      try {
+        await api('/api/playlists', {
+          method: 'POST',
+          body: JSON.stringify({ playlistId: select.value, trackId }),
+        });
+        button.textContent = '✓';
+        select.value = '';
+      } catch (error) {
+        window.alert(error.message);
+      } finally {
+        button.disabled = false;
+      }
+    });
+    picker.append(select, button);
+    actions.append(picker);
+  });
+}
+
+async function loadCatalogPlaylists() {
+  if (!currentUser() || !document.querySelector('.song-grid')) return;
+  try {
+    const [data, catalogData] = await Promise.all([
+      api('/api/playlists'),
+      api('/api/songs'),
+    ]);
+    const catalog = { ...BASE_CATALOG };
+    (catalogData.songs || []).forEach((song) => {
+      catalog[String(song.trackId)] = {
+        trackName: song.trackName,
+        artistName: song.artistName,
+        collectionName: song.collectionName,
+      };
+    });
+    playlistOptions = data.playlists || [];
+    refreshPlaylistControls();
+  } catch (error) {
+    console.warn('No se pudieron cargar las playlists.', error);
+  }
 }
 
 function filterSongs() {
@@ -166,6 +282,7 @@ async function requestLogout() {
   sessionUser = null;
   favoriteIds = new Set();
   userLikes = new Set();
+  playlistOptions = [];
   onlyFavoritesMode = false;
 
   if (window.location.pathname.endsWith('perfil.html')) {
@@ -316,6 +433,38 @@ function titleMatchesSearch(song, query) {
   return words.length > 0 && words.every((word) => normalizedTitle.includes(word));
 }
 
+function renderSongSummary(song, className = 'recommendation-card') {
+  const card = document.createElement('article');
+  card.className = className;
+  const title = document.createElement('strong');
+  title.textContent = song.trackName || 'Canción sin título';
+  const details = document.createElement('p');
+  details.textContent = `${song.artistName || 'Artista desconocido'} · ${song.primaryGenreName || 'Sin género'}`;
+  card.append(title, details);
+  return card;
+}
+
+async function searchSemanticCatalog(event) {
+  const query = event.currentTarget.value.trim();
+  const results = document.querySelector('#semantic-results');
+  if (!results) return;
+  if (query.length < 2) {
+    results.replaceChildren();
+    return;
+  }
+  try {
+    const data = await api(`/api/semantic/search?q=${encodeURIComponent(query)}`);
+    results.replaceChildren();
+    if (!data.results.length) {
+      results.textContent = 'No encontramos relaciones para esa búsqueda.';
+      return;
+    }
+    data.results.slice(0, 8).forEach((song) => results.append(renderSongSummary(song, 'semantic-result')));
+  } catch (error) {
+    results.textContent = error.message;
+  }
+}
+
 function createSongCard(song, index) {
   const card = document.createElement('article');
   const title = song.trackName || song.title;
@@ -365,18 +514,27 @@ function createSongCard(song, index) {
   info.querySelector('.song-meta span').textContent = year ? `Año: ${year}` : '';
   info.querySelectorAll('.song-meta span')[1].textContent = song.trackTimeMillis ? `Duración: ${formatDuration(song.trackTimeMillis)}` : '';
   info.querySelector('.added-by').textContent = `Agregada por ${addedBy}`;
-  info.querySelector('.delete-song-button').dataset.title = title;
+  const deleteButton = info.querySelector('.delete-song-button');
+  const ownsSong = currentUser()?.username?.toLowerCase() === addedBy.toLowerCase();
+  if (!ownsSong) {
+    deleteButton.remove();
+  } else {
+    deleteButton.dataset.title = title;
+  }
 
   const audio = document.createElement('audio');
   audio.controls = true;
   audio.preload = 'none';
   audio.src = song.previewUrl || '';
+  audio.addEventListener('play', recordPlayback, { once: true });
   info.append(audio);
 
   card.append(cover, info);
   card.querySelector('.favorite-button').addEventListener('click', toggleFavorite);
   card.querySelector('.like-button').addEventListener('click', toggleLike);
-  card.querySelector('.delete-song-button').addEventListener('click', handleDeleteSong);
+  if (deleteButton.isConnected) {
+    deleteButton.addEventListener('click', handleDeleteSong);
+  }
   return card;
 }
 
@@ -399,6 +557,7 @@ async function restoreUserSongs() {
   updateSessionUI();
   filterSongs();
   await loadMusicData();
+  await loadCatalogPlaylists();
 }
 
 function openAddSong() {
@@ -433,7 +592,7 @@ async function addSong(event) {
     await api('/api/songs', { method: 'POST', body: JSON.stringify(song) });
     form.reset();
     message.className = 'auth-message is-success';
-    message.textContent = 'Canción agregada correctamente en XML.';
+    message.textContent = 'Canción agregada correctamente.';
     document.querySelector('#add-song-dialog').close();
     await restoreUserSongs();
   } catch (error) {
@@ -504,7 +663,7 @@ async function initProfilePage() {
   document.querySelector('#stat-added').textContent = userAddedCount;
 
   const avatarEl = document.querySelector('#profile-page-avatar');
-  avatarEl.style.backgroundColor = sessionUser.avatarColor || '#2b7a78';
+  applyAvatar(avatarEl, sessionUser);
   document.querySelector('#input-bio').value = sessionUser.bio || '';
   document.querySelector('#input-avatar-color').value = sessionUser.avatarColor || '#2b7a78';
   document.querySelector('#input-artists').value = sessionUser.favoriteArtists || '';
@@ -532,14 +691,20 @@ async function initProfilePage() {
       const info = allKnownSongs[id] || { title: `Canción #${id}`, artist: 'Biblioteca Sonora', genre: 'musical' };
       const li = document.createElement('li');
       li.className = 'profile-fav-item';
-      li.innerHTML = `
-        <div>
-          <strong>${info.title}</strong>
-          <span>${info.artist} · <em>${info.genre}</em></span>
-        </div>
-        <button type="button" class="button button-outline btn-remove-fav-profile" data-id="${id}" data-title="${info.title}">Quitar ★</button>
-      `;
-      li.querySelector('.btn-remove-fav-profile').addEventListener('click', async (e) => {
+      const infoContainer = document.createElement('div');
+      const title = document.createElement('strong');
+      title.textContent = info.title;
+      const details = document.createElement('span');
+      details.textContent = `${info.artist} · ${info.genre}`;
+      infoContainer.append(title, details);
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.className = 'button button-outline btn-remove-fav-profile';
+      removeButton.textContent = 'Quitar ★';
+      removeButton.dataset.id = id;
+      removeButton.dataset.title = info.title;
+      li.append(infoContainer, removeButton);
+      removeButton.addEventListener('click', async (e) => {
         const trackId = e.currentTarget.dataset.id;
         const title = e.currentTarget.dataset.title;
         const ok = await askConfirmation({
@@ -554,6 +719,134 @@ async function initProfilePage() {
       });
       favList.append(li);
     });
+  }
+
+  await loadRecommendations();
+  await loadPlaylists();
+  await loadStats();
+}
+
+async function loadRecommendations() {
+  const container = document.querySelector('#recommendations-list');
+  if (!container) return;
+  try {
+    const data = await api('/api/recommendations');
+    container.replaceChildren();
+    if (!data.recommendations.length) {
+      container.textContent = 'Completa tus géneros o artistas favoritos para recibir recomendaciones.';
+      return;
+    }
+    data.recommendations.forEach((song) => container.append(renderSongSummary(song)));
+  } catch (error) {
+    container.textContent = error.message;
+  }
+}
+
+async function loadPlaylists() {
+  const container = document.querySelector('#playlists-list');
+  if (!container) return;
+  try {
+    const [data, catalogData] = await Promise.all([
+      api('/api/playlists'),
+      api('/api/songs'),
+    ]);
+    const catalog = { ...BASE_CATALOG };
+    (catalogData.songs || []).forEach((song) => {
+      catalog[String(song.trackId)] = {
+        trackName: song.trackName,
+        artistName: song.artistName,
+        collectionName: song.collectionName,
+      };
+    });
+    container.replaceChildren();
+    if (!data.playlists.length) {
+      container.textContent = 'Aún no tienes playlists.';
+      return;
+    }
+    data.playlists.forEach((playlist) => {
+      const item = document.createElement('article');
+      item.className = 'playlist-item';
+      const title = document.createElement('strong');
+      title.textContent = playlist.name;
+      const description = document.createElement('p');
+      description.textContent = `${playlist.description || 'Sin descripción'} · ${playlist.songs.length} canciones`;
+      const openButton = document.createElement('button');
+      openButton.type = 'button';
+      openButton.className = 'button button-outline playlist-open-button';
+      openButton.textContent = 'Ver canciones';
+      const songsList = document.createElement('ul');
+      songsList.className = 'playlist-songs';
+      songsList.hidden = true;
+      const details = playlist.songs
+        .map((trackId) => playlist.songDetails?.find((song) => String(song.trackId) === String(trackId)) || catalog[String(trackId)])
+        .filter(Boolean);
+      details.forEach((song) => {
+        const entry = document.createElement('li');
+        const songTitle = song.trackName || song.title || 'Canción sin título';
+        const artist = song.artistName || song.artist || 'Artista desconocido';
+        const album = song.collectionName || song.album;
+        entry.textContent = `${songTitle} — ${artist}${album ? ` · ${album}` : ''}`;
+        songsList.append(entry);
+      });
+      if (!details.length) {
+        const empty = document.createElement('li');
+        empty.textContent = 'No se pudieron cargar los datos de estas canciones.';
+        songsList.append(empty);
+      }
+      openButton.addEventListener('click', () => {
+        songsList.hidden = !songsList.hidden;
+        openButton.textContent = songsList.hidden ? 'Ver canciones' : 'Ocultar canciones';
+      });
+      item.append(title, description, openButton, songsList);
+      container.append(item);
+    });
+  } catch (error) {
+    container.textContent = error.message;
+  }
+}
+
+async function createPlaylist(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const submit = form.querySelector('button[type="submit"]');
+  const message = document.querySelector('#playlist-message');
+  const name = document.querySelector('#playlist-name').value.trim();
+  const description = document.querySelector('#playlist-description').value.trim();
+  if (!name || !submit) return;
+  submit.disabled = true;
+  try {
+    await api('/api/playlists', {
+      method: 'POST',
+      body: JSON.stringify({ name, description, songs: [] }),
+    });
+    form.reset();
+    if (message) {
+      message.className = 'auth-message is-success';
+      message.textContent = 'Playlist creada con tus canciones favoritas.';
+    }
+    await loadPlaylists();
+  } catch (error) {
+    if (message) {
+      message.className = 'auth-message is-error';
+      message.textContent = error.message;
+    }
+  } finally {
+    submit.disabled = false;
+  }
+}
+
+async function recordPlayback(event) {
+  if (!currentUser()) return;
+  const card = event.currentTarget.closest('.song-card');
+  const trackId = card?.dataset.id;
+  if (!trackId) return;
+  try {
+    await api('/api/history', {
+      method: 'POST',
+      body: JSON.stringify({ trackId }),
+    });
+  } catch (error) {
+    console.warn('No se pudo registrar la reproducción.', error);
   }
 }
 
@@ -573,9 +866,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         body: JSON.stringify({ bio, avatarColor }),
       });
       sessionUser = res.user;
-      document.querySelector('#profile-page-avatar').style.backgroundColor = sessionUser.avatarColor;
+      applyAvatar(document.querySelector('#profile-page-avatar'), sessionUser);
       msg.className = 'auth-message is-success';
-      msg.textContent = 'Información del usuario actualizada en XML.';
+      msg.textContent = 'Información del usuario actualizada.';
     });
 
     document.querySelector('#profile-tastes-form').addEventListener('submit', async (e) => {
@@ -592,14 +885,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
       sessionUser = res.user;
       msg.className = 'auth-message is-success';
-      msg.textContent = 'Gustos musicales guardados en XML.';
+      msg.textContent = 'Gustos musicales guardados.';
     });
+    const playlistForm = document.querySelector('#playlist-form');
+    if (playlistForm) playlistForm.addEventListener('submit', createPlaylist);
     return;
   }
 
   document.querySelectorAll('.favorite-button').forEach((b) => b.addEventListener('click', toggleFavorite));
   document.querySelectorAll('.like-button').forEach((b) => b.addEventListener('click', toggleLike));
   document.querySelectorAll('.delete-song-button').forEach((b) => b.addEventListener('click', handleDeleteSong));
+  document.querySelectorAll('.song-card audio').forEach((audio) => audio.addEventListener('play', recordPlayback, { once: true }));
 
   document.querySelector('#search').addEventListener('input', filterSongs);
   document.querySelector('#genre-filter').addEventListener('change', filterSongs);
@@ -654,6 +950,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector('#add-song-button').addEventListener('click', openAddSong);
   document.querySelector('#add-song-form').addEventListener('submit', addSong);
   document.querySelector('#close-add-dialog').addEventListener('click', () => document.querySelector('#add-song-dialog').close());
+
+  const semanticSearch = document.querySelector('#semantic-search');
+  if (semanticSearch) semanticSearch.addEventListener('input', searchSemanticCatalog);
 
   const session = await api('/api/me');
   sessionUser = session.user;

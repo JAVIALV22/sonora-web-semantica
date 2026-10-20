@@ -28,6 +28,106 @@ body {
   line-height: 1.6;
 }
 
+.semantic-panel,
+.profile-wide {
+  width: min(1180px, calc(100% - 40px));
+  margin: 28px auto;
+  padding: 28px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.semantic-panel {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 420px);
+  gap: 18px 28px;
+  align-items: center;
+}
+
+.semantic-panel h2 {
+  margin: 0;
+}
+
+.semantic-panel p {
+  color: var(--muted);
+}
+
+.semantic-results,
+.recommendation-grid,
+.playlist-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.semantic-results {
+  grid-column: 1 / -1;
+}
+
+.semantic-result,
+.playlist-item {
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+}
+
+.playlist-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.playlist-open-button {
+  font-size: 0.85rem;
+  padding: 7px 12px;
+}
+
+.playlist-songs {
+  width: 100%;
+  margin: 4px 0 0;
+  padding: 10px 10px 10px 28px;
+  border-radius: 8px;
+  background: #f7faf9;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.recommendation-grid,
+.playlist-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.recommendation-card {
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.inline-form input {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+@media (max-width: 760px) {
+  .semantic-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
 button, input, select, textarea {
   font: inherit;
 }
@@ -508,6 +608,38 @@ input, select, textarea {
   color: var(--gold);
   border-color: var(--gold);
   background: #fff9eb;
+}
+
+.playlist-picker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.playlist-select {
+  max-width: 150px;
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.75rem;
+}
+
+.playlist-add-button {
+  min-width: 32px;
+  min-height: 32px;
+  border: 1px solid var(--teal);
+  border-radius: 8px;
+  background: var(--teal);
+  color: white;
+  cursor: pointer;
+}
+
+.playlist-add-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .delete-song-button {

@@ -7,7 +7,7 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Sonora | Biblioteca musical</title>
-        <link rel="stylesheet" href="canciones.css?v=4"/>
+        <link rel="stylesheet" href="canciones.css?v=5"/>
       </head>
       <body>
         <header class="topbar">
@@ -29,7 +29,7 @@
                 <div class="dropdown-header">
                   <div class="profile-avatar-large" id="dropdown-avatar">👤</div>
                   <strong id="dropdown-username">Usuario</strong>
-                  <span class="dropdown-badge">Cuenta activa · XML</span>
+                  <span class="dropdown-badge">Cuenta activa</span>
                 </div>
                 <div class="dropdown-actions">
                   <button type="button" id="btn-go-profile" class="dropdown-btn">👤 Perfil</button>
@@ -45,7 +45,7 @@
           <section class="hero">
             <p class="eyebrow">ARCHIVO MUSICAL · <xsl:value-of select="count(cancionero/cancion)"/> PISTAS BASE</p>
             <h1>Tu música,<br/><em>a tu manera.</em></h1>
-            <p class="hero-copy">Explora canciones, descubre nuevos sonidos, marca tus likes y organiza tu propia colección semántica en XML.</p>
+            <p class="hero-copy">Explora canciones, descubre nuevos sonidos, marca tus likes y organiza tu colección musical.</p>
           </section>
 
           <section class="controls" aria-label="Controles de búsqueda">
@@ -102,7 +102,6 @@
                         <span class="like-count" data-like-count="{@id}">0 likes</span>
                       </button>
                       <button class="favorite-button" data-id="{@id}" type="button" aria-label="Agregar a favoritos" title="Favorito">☆</button>
-                      <button class="delete-song-button" data-id="{@id}" data-title="{titulo}" type="button" aria-label="Eliminar canción" title="Eliminar canción">🗑</button>
                     </div>
                   </div>
                   <h3><xsl:value-of select="titulo"/></h3>
@@ -120,17 +119,12 @@
           </section>
         </main>
 
-        <footer>
-          <span>SONORA / Proyecto de Web Semántica</span>
-          <span>Base de datos e Interfaz en XML · DTD · XSD · XSL</span>
-        </footer>
-
         <dialog id="login-dialog">
           <form method="dialog" id="auth-form">
             <button type="button" id="close-dialog" class="close-button" aria-label="Cerrar">×</button>
             <p class="eyebrow">CUENTA SONORA</p>
             <h2>Guarda tus favoritas.</h2>
-            <p class="dialog-copy">Regístrate o inicia sesión para conservar tu colección en la base de datos XML.</p>
+            <p class="dialog-copy">Regístrate o inicia sesión para conservar tu colección musical.</p>
             <label class="field-label">Usuario
               <input name="username" required="required" minlength="3" autocomplete="username"/>
             </label>
@@ -147,7 +141,7 @@
             <button type="button" id="close-add-dialog" class="close-button" aria-label="Cerrar">×</button>
             <p class="eyebrow">NUEVA CANCIÓN</p>
             <h2>Amplía tu biblioteca.</h2>
-            <p class="dialog-copy">Escribe el título de la canción para buscarla y guardarla en el archivo XML.</p>
+            <p class="dialog-copy">Escribe el título de la canción para buscarla y guardarla en tu biblioteca.</p>
             <label class="field-label">Título de la canción
               <input name="title" required="required" autocomplete="off" placeholder="Ej. Imagine"/>
             </label>
@@ -168,7 +162,7 @@
           </div>
         </dialog>
 
-        <script src="canciones.js?v=4"></script>
+        <script src="canciones.js?v=5"></script>
       </body>
     </html>
   </xsl:template>
