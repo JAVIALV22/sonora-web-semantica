@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=canciones.xml">
-    <title>SONORA</title>
+    <title>SONORA - Catálogo musical</title>
+    <style>
+        body {
+            align-items: center;
+            background: #101522;
+            color: #ffffff;
+            display: flex;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            margin: 0;
+            min-height: 100vh;
+            text-align: center;
+        }
+        main { max-width: 620px; padding: 32px; }
+        a {
+            background: #35d0ba;
+            border-radius: 8px;
+            color: #101522;
+            display: inline-block;
+            font-weight: bold;
+            margin: 8px;
+            padding: 14px 22px;
+            text-decoration: none;
+        }
+        a.secondary { background: #ffffff; }
+    </style>
 </head>
 <body>
-    <p>Cargando SONORA...</p>
+    <main>
+        <h1>SONORA</h1>
+        <p>Catálogo musical del proyecto de Web Semántica.</p>
+        <a href="canciones.xml?v=6">Abrir catálogo</a>
+        <a class="secondary" href="perfil.html">Abrir perfil</a>
+    </main>
 </body>
 </html>
