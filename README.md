@@ -1,5 +1,11 @@
 # SONORA - Proyecto de Web Semantica
 
+## Sitio publicado
+
+**[Abrir SONORA en GitHub Pages](https://javialv22.github.io/sonora-web-semantica/)**
+
+La vista principal del repositorio muestra este README porque GitHub lo utiliza como presentación del proyecto. Para abrir la aplicación, utiliza el enlace anterior o entra a `index.html`.
+
 ## Estructura del proyecto
 
 - `canciones.xml`: catálogo base de canciones.
