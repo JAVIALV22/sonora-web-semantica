@@ -162,7 +162,7 @@
           </div>
         </dialog>
 
-        <script src="canciones.js?v=5"></script>
+        <script src="canciones.js?v=7"></script>
       </body>
     </html>
   </xsl:template>

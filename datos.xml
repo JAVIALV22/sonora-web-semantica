@@ -1,30 +1,97 @@
 <?xml version='1.0' encoding='utf-8'?>
 <sonora_db>
   <usuarios>
-    <usuario id="1" username="DIOS" password_hash="907c2c01b4ee9c7c092a4b974e5e62f232d7e77e07d30f4d3547864c99dddc56" password_salt="326269ae3e5ffaf4913d63728e03bef7" created_at="2026-10-19">
-      <perfil bio="Amante de la música en Sonora." generos="pop,rock,latino" artistas="" avatar_color="#2b7a78" />
+    <usuario id="1" username="DIOS" password_hash="af90b7c4dff6f9ed40c7165d047391c87ceb1d4ce889f911b797593f414817bc" password_salt="sonora-dios" created_at="2026-10-19">
+      <perfil bio="Amante de la música rapida" generos="pop,rock,latino,balada" artistas="juan jose" avatar_color="#3a6b88" />
     </usuario>
-    <usuario id="2" username="CUENTA NUEVA" password_hash="d48d39b09801d1e9c76694d9eae1d41f62a061cc74ef4d7d8e0f482bec9b0d5e" password_salt="956b4b6ce16b1b0032ef79571295676f" created_at="2026-10-19">
-      <perfil bio="Amante de la música en Sonora." generos="pop,rock,latino" artistas="The Weeknd" avatar_color="#6d597a" />
+    <usuario id="2" username="JUAN" password_hash="68fe7ea54bb64827d2d2b5233b6b843f266b001895c24ed95d76743dc99b311f" password_salt="sonora-juan" created_at="2026-10-19">
+      <perfil bio="Amante de la música." generos="rock,pop" artistas="Queen" avatar_color="#3a6b88" />
+    </usuario>
+    <usuario id="3" username="MARIA" password_hash="d80697b3d00defe7ab6dc7ce2646852a6f9814c8a7b85afc15ddf05858d6ec7d" password_salt="sonora-maria" created_at="2026-10-19">
+      <perfil bio="Siempre descubriendo música nueva." generos="latino,balada" artistas="Adele" avatar_color="#b56576" />
+    </usuario>
+    <usuario id="4" username="ANA" password_hash="5ea90f665fe570f8cd4c8af7544d00c2ea39aef6a43c00558c07e0d40f32fffa" password_salt="sonora-ana" created_at="2026-10-19">
+      <perfil bio="Música para cada momento." generos="reggaeton,regional" artistas="Bad Bunny" avatar_color="#52796f" />
     </usuario>
   </usuarios>
   <canciones_agregadas>
-    <cancion user_id="1" added_by="DIOS" track_id="475774918" title="Perdido en la Obscuridad" artist="José José" album="Amor Amor" genre="Pop en español" year="1980" artwork_url="https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/51/3a/8e513a27-1376-7529-4ab3-05524b22f94a/743215756828.jpg/100x100bb.jpg" preview_url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c1/69/54/c16954aa-b348-8e23-03f6-6f39df4233db/mzaf_1415413067096505816.plus.aac.p.m4a" track_url="https://music.apple.com/es/album/perdido-en-la-obscuridad/475774599?i=475774918&amp;uo=4" duration_ms="231600" />
-    <cancion user_id="2" added_by="CUENTA NUEVA" track_id="1249009018" title="Si Me Dejas Ahora" artist="José José" album="El Príncipe de la Canción" genre="Baladas y Boleros" year="1979" artwork_url="https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/54/cb/1d/54cb1def-8644-be5b-6edc-e5359fcfc0cb/886446573373.jpg/100x100bb.jpg" preview_url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2a/ab/88/2aab8814-9d58-fabf-40ed-5b72b67bbc3a/mzaf_6197749830440162246.plus.aac.p.m4a" track_url="https://music.apple.com/es/album/si-me-dejas-ahora/1249008742?i=1249009018&amp;uo=4" duration_ms="275560" />
+    <cancion user_id="2" added_by="JUAN" track_id="322261627" title="40 y 20" artist="José José" album="40 y 20" genre="Pop en español" year="1992" artwork_url="https://is1-ssl.mzstatic.com/image/thumb/Music/e2/46/7c/mzi.dqnudjjf.jpg/100x100bb.jpg" preview_url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/62/1d/ea/621dea74-820e-8930-8dfe-5ea58c6bb202/mzaf_17910554106791930061.plus.aac.p.m4a" track_url="https://music.apple.com/es/album/40-y-20/322261395?i=322261627&amp;uo=4" duration_ms="240856" />
+    <cancion user_id="1" added_by="DIOS" track_id="1152540834" title="Triste" artist="Kase.O" album="El Círculo" genre="Hip-hop/Rap" year="2016" artwork_url="https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/ad/71/36/ad713686-653f-be79-6ea4-24347a37044e/804071011923.jpg/100x100bb.jpg" preview_url="https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/46/e4/4c/46e44c1a-3382-b3f5-25cb-fc30b0a35939/mzaf_4449406181843588983.plus.aac.p.m4a" track_url="https://music.apple.com/es/album/triste/1152540356?i=1152540834&amp;uo=4" duration_ms="149080" />
   </canciones_agregadas>
   <canciones_eliminadas />
   <favoritos>
-    <favorito user_id="1" track_id="475774918" created_at="2026-10-19T04:23:37.983994" />
     <favorito user_id="2" track_id="c9" created_at="2026-10-19T04:24:29.364783" />
-    <favorito user_id="2" track_id="1249009018" created_at="2026-10-19T04:25:55.887984" />
-    <favorito user_id="2" track_id="c7" created_at="2026-10-19T04:26:45.208424" />
-    <favorito user_id="2" track_id="475774918" created_at="2026-10-19T04:27:00.027978" />
+    <favorito user_id="1" track_id="c9" created_at="2026-10-19T19:22:55.130339" />
+    <favorito user_id="1" track_id="c6" created_at="2026-10-19T19:40:36.862490" />
+    <favorito user_id="2" track_id="c8" created_at="2026-10-21T23:53:45.123026" />
+    <favorito user_id="1" track_id="322261627" created_at="2026-10-21T23:54:27.001653" />
   </favoritos>
   <likes>
-    <like user_id="1" track_id="475774918" created_at="2026-10-19T04:23:39.564116" />
-    <like user_id="2" track_id="475774918" created_at="2026-10-19T04:24:26.316987" />
     <like user_id="2" track_id="c9" created_at="2026-10-19T04:24:29.096101" />
-    <like user_id="2" track_id="1249009018" created_at="2026-10-19T04:25:55.692686" />
-    <like user_id="2" track_id="c7" created_at="2026-10-19T04:26:11.636744" />
+    <like user_id="1" track_id="c8" created_at="2026-10-19T19:08:13.096678" />
+    <like user_id="1" track_id="c9" created_at="2026-10-19T19:22:51.223224" />
+    <like user_id="2" track_id="c7" created_at="2026-10-19T19:40:09.924396" />
+    <like user_id="2" track_id="c8" created_at="2026-10-21T23:54:04.823105" />
   </likes>
+  <sesiones>
+    <sesion token="as3Urli-gaCjD0rAoTV4wuUwcOEzlA4oNp6-909hngg" user_id="1" created_at="1792457843.748367" last_seen="1792458430.685666" expires_at="1793062643.748367" />
+    <sesion token="jNpkWH5iSywAGQcqyqG6NFRYRW4jMFNcgh2LkV-RIOI" user_id="1" created_at="1792458445.679134" last_seen="1792458908.906261" expires_at="1793063245.679134" />
+    <sesion token="6zYJjClyWLXqxG5MHmj7D5coeuW5Bc8ENtDJdHtbOZg" user_id="1" created_at="1792458924.334785" last_seen="1792459320.897905" expires_at="1793063724.334785" />
+    <sesion token="Xe14VVArDiopDW04XjcZIkyjRDg8HgBCMEkLfYHnVGs" user_id="1" created_at="1792459345.699139" last_seen="1792459830.826206" expires_at="1793064145.699139" />
+    <sesion token="brKV44qRV2GKFZIudtLK3H8Oh9Ebs4mOUsf-2oe2sYE" user_id="1" created_at="1792459842.693138" last_seen="1792459941.543107" expires_at="1793064642.693138" />
+    <sesion token="Bd2GqK4dr4rcukzgtC3rKE8W01YfD5Ea8U03ZKNcPT4" user_id="1" created_at="1792461016.185735" last_seen="1792461077.574766" expires_at="1793065816.185735" />
+    <sesion token="_S30SjM2B-aANCyOttCvLpwxvHCVnvDb6COnB_A2mLQ" user_id="1" created_at="1792645995.077291" last_seen="1792645995.09406" expires_at="1793250795.077291" />
+    <sesion token="WkxvAkCP5OPR2xuBv14GD7KsoVI72_K6Or7nIZA-bhY" user_id="1" created_at="1792646546.182769" last_seen="1792646546.182769" expires_at="1793251346.182769" />
+    <sesion token="wzTiaeprOJn1QoVqqRfaSw9BNKn5H4AZgfidvqqrhYw" user_id="1" created_at="1792646557.03278" last_seen="1792646557.066231" expires_at="1793251357.03278" />
+    <sesion token="aXwsLjXeX8ANbsOBc_IRqlMwP5FGc5iIqyi1oZU5LNE" user_id="1" created_at="1792646565.412437" last_seen="1792646565.42337" expires_at="1793251365.412437" />
+    <sesion token="BdsLpIS33DkoAeSNwZpnEu-tSRY5rwiZABg-kPWC5Qw" user_id="2" created_at="1792646565.702165" last_seen="1792646565.702165" expires_at="1793251365.702165" />
+    <sesion token="-M9PpSrGz52h6nJ9FUCY4ILwWMOwdNnw5quk0vC4GGo" user_id="1" created_at="1792646670.63317" last_seen="1792646670.63317" expires_at="1793251470.63317" />
+    <sesion token="rx3gV7EB8_JEIFUO4xIllAsURsQrYuViG2cz3opmEtk" user_id="2" created_at="1792646670.916192" last_seen="1792646670.916192" expires_at="1793251470.916192" />
+    <sesion token="sNMbtupDpS4XF3AuN3Q-Dr5eb6RjjNuYf2EL0VSZ1GI" user_id="1" created_at="1792646682.3367" last_seen="1792646682.3367" expires_at="1793251482.3367" />
+    <sesion token="i1uN18_N27M7t6BBwKU2Dp69hhL0X3a9nZKerYSVUSA" user_id="1" created_at="1792647283.442485" last_seen="1792647283.442485" expires_at="1793252083.442485" />
+    <sesion token="bpXAUDbtmnVgTLnMrg26XErIgjsgFbglJnaL0IGzvIc" user_id="1" created_at="1792647294.039039" last_seen="1792647294.039039" expires_at="1793252094.039039" />
+    <sesion token="TCA2Wpv_NoUQkjA1P4HYY2S_zyLJwEJKw7wBqZplBN0" user_id="1" created_at="1792647327.541365" last_seen="1792647327.541365" expires_at="1793252127.541365" />
+    <sesion token="exMlTLuZ87wKqzybjKGr22ft82Ia5W22jubCYDAP8pI" user_id="2" created_at="1792647327.779266" last_seen="1792647327.779266" expires_at="1793252127.779266" />
+    <sesion token="xuyF5oQzUY-NhcJkTsnf_frml62rVIMY-B6zJjMAXpU" user_id="1" created_at="1792647695.978311" last_seen="1792647695.978311" expires_at="1793252495.978311" />
+    <sesion token="Qn-yKrswwEDIj9cMC9kJQ_-_TSxdxJJnqerPBUYkr34" user_id="1" created_at="1792647924.47588" last_seen="1792647924.47588" expires_at="1793252724.47588" />
+    <sesion token="yTVnUmmAxSMwhxrtDkTSaTjFRl7ryf4YAtwIRWwVXzs" user_id="1" created_at="1792768849.335005" last_seen="1792768849.335005" expires_at="1793373649.335005" />
+  </sesiones>
+  <playlists>
+    <playlist id="1" user_id="1" name="Triste" description="canciones para cuando estes sad" public="false" created_at="2026-10-19T19:16:14.967639">
+      <cancion track_id="475774918" />
+      <cancion track_id="c2" />
+      <cancion track_id="c1" />
+      <cancion track_id="1443837286" />
+    </playlist>
+    <playlist id="2" user_id="2" name="Triste 1" description="canciones para cuando estes sad" public="false" created_at="2026-10-19T19:33:17.663433">
+      <cancion track_id="475774918" />
+      <cancion track_id="322261627" />
+      <cancion track_id="c1" />
+    </playlist>
+    <playlist id="3" user_id="1" name="Triste 3" description="triste" public="false" created_at="2026-10-21T09:25:58.537957">
+      <cancion track_id="c3" />
+    </playlist>
+  </playlists>
+  <comentarios />
+  <historial>
+    <reproduccion user_id="1" track_id="475774918" created_at="2026-10-19T19:08:00.127585" />
+    <reproduccion user_id="1" track_id="c8" created_at="2026-10-19T19:08:17.260269" />
+    <reproduccion user_id="1" track_id="c2" created_at="2026-10-19T19:21:54.702331" />
+    <reproduccion user_id="1" track_id="c1" created_at="2026-10-19T19:22:00.909502" />
+    <reproduccion user_id="1" track_id="475774918" created_at="2026-10-19T19:31:00.574783" />
+    <reproduccion user_id="2" track_id="475774918" created_at="2026-10-19T19:32:45.056541" />
+    <reproduccion user_id="2" track_id="c2" created_at="2026-10-19T19:33:27.503950" />
+    <reproduccion user_id="1" track_id="c6" created_at="2026-10-19T19:40:38.531120" />
+    <reproduccion user_id="1" track_id="c6" created_at="2026-10-19T19:50:38.848759" />
+    <reproduccion user_id="2" track_id="1443837286" created_at="2026-10-19T19:55:52.372668" />
+    <reproduccion user_id="2" track_id="323476008" created_at="2026-10-19T19:56:20.349061" />
+    <reproduccion user_id="1" track_id="c1" created_at="2026-10-19T20:57:49.579703" />
+    <reproduccion user_id="1" track_id="c2" created_at="2026-10-21T09:20:55.238591" />
+    <reproduccion user_id="1" track_id="c1" created_at="2026-10-21T09:23:05.282129" />
+    <reproduccion user_id="1" track_id="323476008" created_at="2026-10-21T09:23:47.544677" />
+    <reproduccion user_id="2" track_id="322261627" created_at="2026-10-21T09:28:08.994507" />
+    <reproduccion user_id="1" track_id="322261627" created_at="2026-10-21T23:30:45.382069" />
+    <reproduccion user_id="1" track_id="1443837286" created_at="2026-10-21T23:43:18.825933" />
+    <reproduccion user_id="1" track_id="c1" created_at="2026-10-21T23:51:55.250258" />
+  </historial>
 </sonora_db>

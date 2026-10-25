@@ -1,5 +1,4 @@
 import hashlib
-import html
 import json
 import secrets
 import threading
@@ -103,28 +102,6 @@ def all_song_metadata(root):
     return songs
 
 
-def semantic_rdf(root):
-    rdf = ['<?xml version="1.0" encoding="UTF-8"?>',
-           '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"',
-           ' xmlns:schema="https://schema.org/" xmlns:sonora="https://sonora.local/vocab#">']
-    for song in all_song_metadata(root).values():
-        song_id = urllib.parse.quote(song['trackId'], safe='')
-        artist_id = urllib.parse.quote(song['artistName'].lower(), safe='')
-        rdf.append(f'  <schema:MusicRecording rdf:about="https://sonora.local/song/{song_id}">')
-        rdf.append(f'    <schema:name>{html.escape(song["trackName"])}</schema:name>')
-        rdf.append(f'    <schema:genre>{html.escape(song["primaryGenreName"])}</schema:genre>')
-        rdf.append(f'    <schema:inAlbum>{html.escape(song["collectionName"])}</schema:inAlbum>')
-        rdf.append(f'    <schema:datePublished>{html.escape(song["releaseDate"][:4])}</schema:datePublished>')
-        rdf.append('    <schema:byArtist>')
-        rdf.append(f'      <schema:MusicGroup rdf:about="https://sonora.local/artist/{artist_id}">')
-        rdf.append(f'        <schema:name>{html.escape(song["artistName"])}</schema:name>')
-        rdf.append('      </schema:MusicGroup>')
-        rdf.append('    </schema:byArtist>')
-        rdf.append('  </schema:MusicRecording>')
-    rdf.append('</rdf:RDF>')
-    return '\n'.join(rdf)
-
-
 def json_body(handler):
     try:
         length = int(handler.headers.get('Content-Length', 0))
@@ -163,6 +140,7 @@ def song_response(song_elem):
         'trackViewUrl': song_elem.get('track_url', ''),
         'trackTimeMillis': int(duration_ms) if str(duration_ms).isdigit() else None,
         'addedBy': song_elem.get('added_by', 'Usuario'),
+        'addedById': song_elem.get('user_id', ''),
     }
 
 
@@ -206,10 +184,8 @@ class SonoraHandler(SimpleHTTPRequestHandler):
                     root.find('sesiones').remove(session)
                     save_xml(root)
                 return None
-            session.set('last_seen', str(now))
             user = find_user(root, session.get('user_id'))
             if user is not None:
-                save_xml(root)
                 return user_dict(user)
         return None
 
@@ -237,30 +213,6 @@ class SonoraHandler(SimpleHTTPRequestHandler):
             result = [song_response(s) for s in songs_elems]
             deleted_ids = [d.get('track_id') for d in deleted_elems if d.get('track_id')]
             self.send_json({'songs': result, 'deletedIds': deleted_ids})
-            return
-
-        if parsed.path == '/api/semantic.rdf':
-            with DB_LOCK:
-                body = semantic_rdf(load_xml()).encode('utf-8')
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/rdf+xml; charset=utf-8')
-            self.send_header('Content-Length', str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
-            return
-
-        if parsed.path == '/api/semantic/search':
-            query = safe_text(urllib.parse.parse_qs(parsed.query).get('q', [''])[0], 100).lower()
-            with DB_LOCK:
-                songs = list(all_song_metadata(load_xml()).values())
-            result = [
-                song for song in songs
-                if query in ' '.join([
-                    song.get('trackName', ''), song.get('artistName', ''),
-                    song.get('collectionName', ''), song.get('primaryGenreName', ''),
-                ]).lower()
-            ]
-            self.send_json({'query': query, 'results': result})
             return
 
         if parsed.path == '/api/favorites':

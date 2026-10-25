@@ -413,12 +413,18 @@ async function handleDeleteSong(event) {
   if (!confirmed) return;
 
   try {
+    button.disabled = true;
     await api(`/api/songs/${encodeURIComponent(trackId)}`, { method: 'DELETE' });
     favoriteIds.delete(trackId);
     userLikes.delete(trackId);
-    await restoreUserSongs();
+    button.closest('.user-song')?.remove();
+    deletedSongIds.add(trackId);
+    filterSongs();
   } catch (error) {
     console.error(error);
+    window.alert(error.message);
+  } finally {
+    button.disabled = false;
   }
 }
 
@@ -442,27 +448,6 @@ function renderSongSummary(song, className = 'recommendation-card') {
   details.textContent = `${song.artistName || 'Artista desconocido'} · ${song.primaryGenreName || 'Sin género'}`;
   card.append(title, details);
   return card;
-}
-
-async function searchSemanticCatalog(event) {
-  const query = event.currentTarget.value.trim();
-  const results = document.querySelector('#semantic-results');
-  if (!results) return;
-  if (query.length < 2) {
-    results.replaceChildren();
-    return;
-  }
-  try {
-    const data = await api(`/api/semantic/search?q=${encodeURIComponent(query)}`);
-    results.replaceChildren();
-    if (!data.results.length) {
-      results.textContent = 'No encontramos relaciones para esa búsqueda.';
-      return;
-    }
-    data.results.slice(0, 8).forEach((song) => results.append(renderSongSummary(song, 'semantic-result')));
-  } catch (error) {
-    results.textContent = error.message;
-  }
 }
 
 function createSongCard(song, index) {
@@ -515,11 +500,10 @@ function createSongCard(song, index) {
   info.querySelectorAll('.song-meta span')[1].textContent = song.trackTimeMillis ? `Duración: ${formatDuration(song.trackTimeMillis)}` : '';
   info.querySelector('.added-by').textContent = `Agregada por ${addedBy}`;
   const deleteButton = info.querySelector('.delete-song-button');
-  const ownsSong = currentUser()?.username?.toLowerCase() === addedBy.toLowerCase();
+  deleteButton.dataset.title = title;
+  const ownsSong = currentUser() && String(song.addedById) === String(currentUser().id);
   if (!ownsSong) {
     deleteButton.remove();
-  } else {
-    deleteButton.dataset.title = title;
   }
 
   const audio = document.createElement('audio');
@@ -532,7 +516,7 @@ function createSongCard(song, index) {
   card.append(cover, info);
   card.querySelector('.favorite-button').addEventListener('click', toggleFavorite);
   card.querySelector('.like-button').addEventListener('click', toggleLike);
-  if (deleteButton.isConnected) {
+  if (ownsSong) {
     deleteButton.addEventListener('click', handleDeleteSong);
   }
   return card;
@@ -950,9 +934,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector('#add-song-button').addEventListener('click', openAddSong);
   document.querySelector('#add-song-form').addEventListener('submit', addSong);
   document.querySelector('#close-add-dialog').addEventListener('click', () => document.querySelector('#add-song-dialog').close());
-
-  const semanticSearch = document.querySelector('#semantic-search');
-  if (semanticSearch) semanticSearch.addEventListener('input', searchSemanticCatalog);
 
   const session = await api('/api/me');
   sessionUser = session.user;

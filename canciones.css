@@ -28,7 +28,6 @@ body {
   line-height: 1.6;
 }
 
-.semantic-panel,
 .profile-wide {
   width: min(1180px, calc(100% - 40px));
   margin: 28px auto;
@@ -39,33 +38,12 @@ body {
   box-shadow: var(--shadow);
 }
 
-.semantic-panel {
-  display: grid;
-  grid-template-columns: 1fr minmax(260px, 420px);
-  gap: 18px 28px;
-  align-items: center;
-}
-
-.semantic-panel h2 {
-  margin: 0;
-}
-
-.semantic-panel p {
-  color: var(--muted);
-}
-
-.semantic-results,
 .recommendation-grid,
 .playlist-grid {
   display: grid;
   gap: 12px;
 }
 
-.semantic-results {
-  grid-column: 1 / -1;
-}
-
-.semantic-result,
 .playlist-item {
   padding: 12px 16px;
   border: 1px solid var(--line);
@@ -123,9 +101,6 @@ body {
 }
 
 @media (max-width: 760px) {
-  .semantic-panel {
-    grid-template-columns: 1fr;
-  }
 }
 
 button, input, select, textarea {

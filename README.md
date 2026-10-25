@@ -19,7 +19,6 @@ La vista principal del repositorio muestra este README porque GitHub lo utiliza 
 - `canciones.js`: interacción dinámica de la aplicación.
 - `servidor.py`: servidor web, API propia y persistencia de datos en XML.
 - `datos.xml`: archivo generado automáticamente para almacenar usuarios, perfiles, canciones, favoritos y *likes*.
-- `sonora.rdf`: catálogo musical representado como RDF/XML con vocabulario Schema.org.
 
 ## Funcionalidades de la v2
 
@@ -38,7 +37,6 @@ La vista principal del repositorio muestra este README porque GitHub lo utiliza 
 - **Página de perfil (`perfil.html`):** incluye **Información del usuario** (estadísticas, fecha de registro, biografía y color de insignia) y **Gustos musicales** (géneros preferidos, artistas favoritos y administración de canciones favoritas).
 - **Ventanas emergentes de confirmación:** cuadros de diálogo interactivos (`<dialog>`) al eliminar una canción, quitar una canción de favoritos o cerrar sesión.
 - **Biblioteca compartida:** las canciones agregadas escribiendo únicamente el título aparecen para todos los usuarios e indican quién las añadió.
-- **Capa semántica RDF:** `sonora.rdf` contiene el catálogo base y `/api/semantic.rdf` genera el RDF actualizado incluyendo canciones agregadas, usando Schema.org.
 - **Recomendaciones personalizadas:** se calculan a partir de los géneros y artistas del perfil.
 - **Playlists:** cada usuario puede crear listas usando sus canciones favoritas.
 - **Historial:** se registra la reproducción de canciones y se utiliza para estadísticas.
@@ -60,6 +58,8 @@ La vista principal del repositorio muestra este README porque GitHub lo utiliza 
 6. Haz clic en tu nombre de usuario, en la esquina superior derecha, para abrir el menú y acceder a **Perfil**, **Mis canciones favoritas** o **Cerrar sesión**.
 7. Pulsa **+ Agregar canción**, escribe el título de una pista y agrégala a la biblioteca compartida en XML.
 
+> Las funciones de usuarios, canciones agregadas, favoritos, likes y eliminación necesitan ejecutar `servidor.py`; la versión publicada en GitHub Pages solo sirve los archivos estáticos y no puede guardar cambios en `datos.xml`.
+
 ### Usuarios de demostración
 
 Para probar rápidamente los perfiles y permisos:
@@ -71,7 +71,7 @@ Para probar rápidamente los perfiles y permisos:
 | `MARIA` | `1234` |
 | `ANA` | `1234` |
 
-Las canciones base no tienen botón de eliminación. Las canciones agregadas por otro usuario tampoco muestran ese botón; únicamente aparece para quien las agregó.
+Las canciones base no tienen botón de eliminación. Las canciones agregadas por otro usuario tampoco muestran ese botón; únicamente aparece para quien las agregó. Al eliminar una canción agregada, también se quitan sus favoritos y likes.
 
 ## Base de datos XML y seguridad
 
@@ -81,12 +81,10 @@ Las contraseñas no se guardan en texto plano: se almacenan usando un *salt* ale
 
 Las portadas y los avances de audio de 30 segundos se consultan desde iTunes Search API al cargar la página. La interfaz también incluye enlaces directos a Apple Music.
 
-## API semántica y funciones nuevas
+## API y funciones nuevas
 
 | Endpoint | Método | Descripción |
 |---|---|---|
-| `/api/semantic.rdf` | GET | Catálogo en RDF/XML |
-| `/api/semantic/search?q=...` | GET | Búsqueda por relaciones musicales |
 | `/api/recommendations` | GET | Recomendaciones del usuario |
 | `/api/playlists` | GET/POST | Consultar o crear playlists |
 | `/api/reviews` | GET/POST | Consultar o guardar reseñas |
